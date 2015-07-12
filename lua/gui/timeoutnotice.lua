@@ -28,14 +28,14 @@ function PANEL:UpdateText(msg)
 end
 
 function PANEL:UpdateMessage(ticksLeft)
-	if(ticksLeft == 6) then
+	if ticksLeft == 6 then
 		self:UpdateText("Server Crash Possible...")
-	elseif(ticksLeft == 4) then
+	elseif ticksLeft == 4 then
 		self:UpdateText("Server Restarting...")
-	elseif(ticksLeft == 3) then
+	elseif ticksLeft == 3 then
 		self._restartTime = SysTime() + 12
 		self._showRestartCountDown = true
-	elseif(ticksLeft == 0) then
+	elseif ticksLeft == 0 then
 		self._showRestartCountDown = false
 		self:UpdateText("Rejoining...")
 		LocalPlayer():ConCommand("retry")
@@ -43,7 +43,7 @@ function PANEL:UpdateMessage(ticksLeft)
 end
 
 function PANEL:Think()
-	if(self._showRestartCountDown) then
+	if self._showRestartCountDown then
 		self:UpdateText(
 			string.format("Rejoin in: %05.2f seconds", self._restartTime-SysTime())
 		)
