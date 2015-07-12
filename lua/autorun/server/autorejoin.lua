@@ -1,4 +1,5 @@
-print("test")
+AddCSLuaFile("gui/timeoutnotice.lua")
+AddCSLuaFile("util/systimer.lua")
 
 util.AddNetworkString("AutoRejoinHeartBeat")
 timer.Create("AutoRejoinHeartBeat", 1, 0, function()

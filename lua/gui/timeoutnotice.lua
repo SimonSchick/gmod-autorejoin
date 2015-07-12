@@ -13,8 +13,9 @@ local PANEL = {}
 function PANEL:Init()
 	self._text = vgui.Create("DLabel", self)
 	self._text:SetFont("AutoRejoin")
-	self:SetPaintBackground(true)
-	self:SetBGColor(Color(200, 200, 200, 200))
+	self._text:SetColor(Color(220, 220, 220, 255))
+	self.createdTime = SysTime()
+
 end
 
 function PANEL:PerformLayout(w, h)
@@ -45,15 +46,14 @@ end
 function PANEL:Think()
 	if self._showRestartCountDown then
 		self:UpdateText(
-			string.format("Rejoin in: %05.2f seconds", self._restartTime-SysTime())
+			string.format("Rejoin in: %05.2f seconds", self._restartTime - SysTime())
 		)
 	end
 end
 
 function PANEL:StartNotice()
-	self._text:SetColor(team.GetColor(LocalPlayer():Team()))
 	self:SetAlpha(0)
-	self:AlphaTo(255, 6, 0)
+	self:AlphaTo(255, 2, 0)
 	self:SetVisible(true)
 	local ticksLeft = 8
 	timer.Create("AutoRejoinPanel", 4, 8, function()
@@ -72,6 +72,10 @@ function PANEL:EndNotice()
 	self._showRestartCountDown = false
 	timer.Remove("AutoRejoinPanel")
 	self:UpdateText("Nevermind...")
+end
+
+function PANEL:Paint()
+	Derma_DrawBackgroundBlur( self, self.createdTime )
 end
 
 

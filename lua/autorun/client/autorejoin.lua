@@ -1,5 +1,5 @@
 include("gui/timeoutnotice.lua")
-AddCSLuaFile("gui/timeoutnotice.lua")
+include("util/systimer.lua")
 
 function makeNotice()
 	local notice = vgui.Create("TimeoutNotice")
@@ -17,21 +17,25 @@ local isTimingOut = false
 local notice
 local isFirstBeat = true
 
+function onTimeout()
+	if not isTimingOut then
+		notice = notice or makeNotice()
+		notice:StartNotice()
+		isTimingOut = true
+	end
+end
+
 function onFirstBeat()
 	isFirstBeat = false
-	timer.Create("AutoRejoin", 2, 0, function()
-		if not isTimingOut then
-			notice = notice or makeNotice()
-			notice:StartNotice()
-			isTimingOut = true
-		end
-	end)
+	systimer.Create("AutoRejoin", 2, 0, onTimeout)
 end
 
 net.Receive("AutoRejoinHeartBeat", function()
-	onFirstBeat()
+	if isFirstBeat then
+		onFirstBeat()
+	end
 	lastBeat = SysTime()
-	timer.Adjust("AutoRejoin", 2, 0)
+	systimer.Adjust("AutoRejoin", 2, 0, onTimeout)
 	if isTimingOut and notice then
 		notice:EndNotice()
 		isTimingOut = false
