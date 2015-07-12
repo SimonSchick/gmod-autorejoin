@@ -1,0 +1,9 @@
+{
+	"title": "AutoRejoin",
+	"type":	"ServerContent",
+	"tags":	[],
+	"ignore": [
+		"*.git",
+		".editorconfig"
+	]
+}
