@@ -1,6 +1,8 @@
 include("gui/timeoutnotice.lua")
 include("util/systimer.lua")
 
+RunConsoleCommand('cl_timeout', 9999)
+
 function makeNotice()
 	local notice = vgui.Create("TimeoutNotice")
 	notice:SetSize(350, 120)
@@ -8,8 +10,6 @@ function makeNotice()
 	notice:SetVisible(false)
 	return notice
 end
-
-
 
 local lastBeat = SysTime()
 
