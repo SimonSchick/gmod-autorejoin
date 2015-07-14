@@ -1,5 +1,4 @@
 if game.SinglePlayer() then
-	print("Not loading autorejoin addon")
 	return
 end
 
