@@ -1,3 +1,7 @@
+if game.SinglePlayer() then
+	print("Not loading autorejoin addon")
+end
+
 AddCSLuaFile("gui/timeoutnotice.lua")
 AddCSLuaFile("util/systimer.lua")
 
