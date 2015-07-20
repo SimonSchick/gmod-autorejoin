@@ -30,9 +30,9 @@ end
 
 function PANEL:UpdateMessage(ticksLeft)
 	if ticksLeft == 6 then
-		self:UpdateText("Server Crash Possible...")
+		self:UpdateText("Server Might of Crashed...")
 	elseif ticksLeft == 4 then
-		self:UpdateText("Server Restarting Should be restarting")
+		self:UpdateText("Server Is Restarting...")
 	elseif ticksLeft == 3 then
 		self._restartTime = SysTime() + 12
 		self._showRestartCountDown = true
@@ -46,7 +46,7 @@ end
 function PANEL:Think()
 	if self._showRestartCountDown then
 		self:UpdateText(
-			string.format("Rejoin in: %05.2f seconds", self._restartTime - SysTime())
+			string.format("Rejoining in: %05.2f seconds", self._restartTime - SysTime())
 		)
 	end
 end
