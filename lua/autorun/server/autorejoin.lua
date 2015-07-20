@@ -3,6 +3,7 @@ if game.SinglePlayer() then
 	return
 end
 
+AddCSLuaFile("autorun/client/autorejoin.lua")
 AddCSLuaFile("gui/timeoutnotice.lua")
 AddCSLuaFile("util/systimer.lua")
 

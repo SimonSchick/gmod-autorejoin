@@ -32,7 +32,7 @@ function PANEL:UpdateMessage(ticksLeft)
 	if ticksLeft == 6 then
 		self:UpdateText("Server Crash Possible...")
 	elseif ticksLeft == 4 then
-		self:UpdateText("Server Restarting...")
+		self:UpdateText("Server Restarting Should be restarting")
 	elseif ticksLeft == 3 then
 		self._restartTime = SysTime() + 12
 		self._showRestartCountDown = true
@@ -56,7 +56,7 @@ function PANEL:StartNotice()
 	self:AlphaTo(255, 2, 0)
 	self:SetVisible(true)
 	local ticksLeft = 8
-	timer.Create("AutoRejoinPanel", 4, 8, function()
+	systimer.Create("AutoRejoinPanel", 4, 8, function()
 		ticksLeft = ticksLeft - 1
 		self:UpdateMessage(ticksLeft)
 	end)
@@ -70,7 +70,7 @@ function PANEL:EndNotice()
 		pnl:SetVisible(false)
 	end)
 	self._showRestartCountDown = false
-	timer.Remove("AutoRejoinPanel")
+	systimer.Remove("AutoRejoinPanel")
 	self:UpdateText("Nevermind...")
 end
 
