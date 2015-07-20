@@ -30,9 +30,9 @@ end
 
 function PANEL:UpdateMessage(ticksLeft)
 	if ticksLeft == 6 then
-		self:UpdateText("Server Might of Crashed...")
+		self:UpdateText("Server might have Crashed...")
 	elseif ticksLeft == 4 then
-		self:UpdateText("Server Is Restarting...")
+		self:UpdateText("Server is Restarting...")
 	elseif ticksLeft == 3 then
 		self._restartTime = SysTime() + 12
 		self._showRestartCountDown = true
