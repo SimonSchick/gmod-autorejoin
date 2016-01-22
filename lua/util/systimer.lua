@@ -14,7 +14,7 @@ end
 
 systimer.Adjust = systimer.Create
 
-hook.Add("Think", "SASysTimer", function()
+hook.Add("Think", "SysTimer", function()
 	local t = SysTime()
 	local isok, res
 	for indentifier, tbl in next, systimer.timers do
