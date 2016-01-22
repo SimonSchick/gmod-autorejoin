@@ -15,7 +15,15 @@ function PANEL:Init()
 	self._text:SetFont("AutoRejoin")
 	self._text:SetColor(Color(220, 220, 220, 255))
 	self.createdTime = SysTime()
+end
 
+function PANEL:SetNoticeTimeouts(timeouts)
+	self.timeouts = {
+		mightHaveCrashed = timeouts.mightHaveCrashed,
+		probablyRestarting = timeouts.probablyRestarting,
+		countdown = timeouts.countdown,
+		rejoining = timeouts.rejoining
+	}
 end
 
 function PANEL:PerformLayout(w, h)
@@ -29,17 +37,16 @@ function PANEL:UpdateText(msg)
 end
 
 function PANEL:UpdateMessage(ticksLeft)
-	if ticksLeft == 6 then
+	if ticksLeft == self.timeouts.mightHaveCrashed then
 		self:UpdateText("Server might have Crashed...")
-	elseif ticksLeft == 4 then
+	elseif ticksLeft == self.timeouts.probablyRestarting then
 		self:UpdateText("Server is Restarting...")
-	elseif ticksLeft == 3 then
+	elseif ticksLeft == self.countdown then
 		self._restartTime = SysTime() + 12
 		self._showRestartCountDown = true
-	elseif ticksLeft == 0 then
+	elseif ticksLeft == self.timeouts.rejoining then
 		self._showRestartCountDown = false
 		self:UpdateText("Rejoining...")
-		LocalPlayer():ConCommand("retry")
 	end
 end
 
@@ -52,13 +59,16 @@ function PANEL:Think()
 end
 
 function PANEL:StartNotice()
+	if not self.timeouts then
+		error("No timeout intervals set!")
+	end
 	self:SetAlpha(0)
 	self:AlphaTo(255, 2, 0)
 	self:SetVisible(true)
-	local ticksLeft = 8
-	systimer.Create("AutoRejoinPanel", 4, 8, function()
-		ticksLeft = ticksLeft - 1
-		self:UpdateMessage(ticksLeft)
+	local secondsPassed = 0
+	systimer.Create("AutoRejoinPanel", 1, 0, function()
+		secondsPassed = secondsPassed + 1
+		self:UpdateMessage(secondsPassed)
 	end)
 
 	self:UpdateText("Connection Problem...")
