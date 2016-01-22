@@ -36,15 +36,15 @@ function PANEL:UpdateText(msg)
 	self._text:Center()
 end
 
-function PANEL:UpdateMessage(ticksLeft)
-	if ticksLeft == self.timeouts.mightHaveCrashed then
+function PANEL:UpdateMessage(secondsRunning)
+	if secondsRunning == self.timeouts.mightHaveCrashed then
 		self:UpdateText("Server might have Crashed...")
-	elseif ticksLeft == self.timeouts.probablyRestarting then
+	elseif secondsRunning == self.timeouts.probablyRestarting then
 		self:UpdateText("Server is Restarting...")
-	elseif ticksLeft == self.countdown then
-		self._restartTime = SysTime() + 12
+	elseif secondsRunning == self.countdown then
+		self._restartTime = SysTime() + (self.timeouts.rejoining - timeouts.countdown)
 		self._showRestartCountDown = true
-	elseif ticksLeft == self.timeouts.rejoining then
+	elseif secondsRunning == self.timeouts.rejoining then
 		self._showRestartCountDown = false
 		self:UpdateText("Rejoining...")
 	end
@@ -53,7 +53,7 @@ end
 function PANEL:Think()
 	if self._showRestartCountDown then
 		self:UpdateText(
-			string.format("Rejoining in: %05.2f seconds", self._restartTime - SysTime())
+			string.format("Rejoining in: %05.2f seconds", math.min(self._restartTime - SysTime(), 0))
 		)
 	end
 end
